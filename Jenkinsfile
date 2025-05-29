@@ -7,7 +7,6 @@ pipeline {
     }
 
     environment {
-        DOCKERHUB_USER = 'kevinloachamin'
         DOCKER_CREDENTIALS_ID = '2'
         SERVICES = 'api-gateway cloud-config favourite-service order-service payment-service product-service proxy-client service-discovery shipping-service user-service locust'
         K8S_NAMESPACE = 'ecommerce'
@@ -137,8 +136,8 @@ pipeline {
         stage('Build & Push Docker Images') {
             when { branch 'master' }
             steps {
-                withCredentials([string(credentialsId: "${DOCKER_CREDENTIALS_ID}", variable: '2')]) {
-                    bat "docker login -u ${DOCKERHUB_USER} -p ${2}"
+                withCredentials([usernamePassword(credentialsId: "${DOCKER_CREDENTIALS_ID}", usernameVariable: 'DOCKERHUB_USER', passwordVariable: 'DOCKERHUB_PASS')]) {
+                    bat "docker login -u %DOCKERHUB_USER% -p %DOCKERHUB_PASS%"
 
                     script {
                         SERVICES.split().each { service ->
