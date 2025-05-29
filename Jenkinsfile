@@ -554,9 +554,9 @@ pipeline {
                 }
             }
         }
-    }
-
 */
+
+    }
 
     post {
         success {
