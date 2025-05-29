@@ -129,7 +129,7 @@ pipeline {
         stage('Build & Package') {
             when { anyOf { branch 'master'; branch 'release' } }
             steps {
-                bat "mvn clean package -DskipTests"
+                bat "mvn clean package -DskipTests -pl ${SERVICES.replaceAll(' ', ',')}"
             }
         }
 
