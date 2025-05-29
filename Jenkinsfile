@@ -7,8 +7,9 @@ pipeline {
     }
 
     environment {
-        DOCKER_CREDENTIALS_ID = '2'
-        SERVICES = 'api-gateway cloud-config favourite-service order-service payment-service product-service proxy-client service-discovery shipping-service user-service'
+        DOCKERHUB_USER = 'kevinloachamin'
+        DOCKER_CREDENTIALS_ID = '3'
+        SERVICES = 'api-gateway cloud-config favourite-service order-service payment-service product-service proxy-client service-discovery shipping-service user-service locust'
         K8S_NAMESPACE = 'ecommerce'
         KUBECONFIG = 'C:\\Users\\games\\.kube\\config'
     }
@@ -129,15 +130,15 @@ pipeline {
         stage('Build & Package') {
             when { anyOf { branch 'master'; branch 'release' } }
             steps {
-                bat "mvn clean package -DskipTests -pl ${SERVICES.replaceAll(' ', ',')}"
+                bat "mvn clean package -DskipTests"
             }
         }
 
         stage('Build & Push Docker Images') {
-            when { branch 'master' }
+            when { anyOf { branch 'stage'; branch 'master' } }
             steps {
-                withCredentials([usernamePassword(credentialsId: "${DOCKER_CREDENTIALS_ID}", usernameVariable: 'DOCKERHUB_USER', passwordVariable: 'DOCKERHUB_PASS')]) {
-                    bat "docker login -u %DOCKERHUB_USER% -p %DOCKERHUB_PASS%"
+                withCredentials([string(credentialsId: "${DOCKER_CREDENTIALS_ID}", variable: '3')]) {
+                    bat "docker login -u ${DOCKERHUB_USER} -p ${3}"
 
                     script {
                         SERVICES.split().each { service ->
