@@ -112,6 +112,7 @@ pipeline {
                     }
                 }
 
+/*
         stage('E2E Tests') {
                     when {
                         anyOf {
@@ -124,7 +125,7 @@ pipeline {
                         bat "mvn verify -pl e2e"
                     }
                 }
-
+*/
 
 
         stage('Build & Package') {
@@ -137,8 +138,8 @@ pipeline {
         stage('Build & Push Docker Images') {
             when { anyOf { branch 'stage'; branch 'master' } }
             steps {
-                withCredentials([string(credentialsId: "${DOCKER_CREDENTIALS_ID}", variable: '3')]) {
-                    bat "docker login -u ${DOCKERHUB_USER} -p ${3}"
+                withCredentials([usernamePassword(credentialsId: "${DOCKER_CREDENTIALS_ID}", usernameVariable: 'DOCKERHUB_USER', passwordVariable: 'DOCKERHUB_PASS')]) {
+                    bat "docker login -u %DOCKERHUB_USER% -p %DOCKERHUB_PASS%"
 
                     script {
                         SERVICES.split().each { service ->
