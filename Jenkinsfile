@@ -121,7 +121,7 @@ pipeline {
                         }
                     }
                     steps {
-                        bat "mvn verify -pl e2e-tests"
+                        bat "mvn verify -pl e2e"
                     }
                 }
 
