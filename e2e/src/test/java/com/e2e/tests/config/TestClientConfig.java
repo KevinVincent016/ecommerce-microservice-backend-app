@@ -1,4 +1,4 @@
-package com.e2e.test.config;
+package com.e2e.tests.config;
 
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;

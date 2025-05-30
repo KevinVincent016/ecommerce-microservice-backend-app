@@ -1,4 +1,4 @@
-package com.e2e.test.util;
+package com.e2e.tests.util;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.http.HttpMethod.POST;

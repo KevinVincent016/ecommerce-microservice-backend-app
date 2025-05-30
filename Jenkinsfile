@@ -76,7 +76,29 @@ pipeline {
                             }
                         }
 
+        stage('Build & Package') {
+            when { anyOf { branch 'master'; branch 'release' } }
+            steps {
+                bat "mvn clean package -DskipTests"
+            }
+        }
 
+
+        stage('Build & Push Docker Images') {
+            when { anyOf { branch 'stage'; branch 'master' } }
+            steps {
+                withCredentials([usernamePassword(credentialsId: "${DOCKER_CREDENTIALS_ID}", usernameVariable: 'DOCKERHUB_USER', passwordVariable: 'DOCKERHUB_PASS')]) {
+                    bat "docker login -u %DOCKERHUB_USER% -p %DOCKERHUB_PASS%"
+
+                    script {
+                        SERVICES.split().each { service ->
+                            bat "docker build -t ${DOCKERHUB_USER}/${service}:${IMAGE_TAG} .\\${service}"
+                            bat "docker push ${DOCKERHUB_USER}/${service}:${IMAGE_TAG}"
+                        }
+                    }
+                }
+            }
+        }
 
         stage('Unit Tests') {
                     when {
@@ -111,31 +133,6 @@ pipeline {
                         }
                     }
                 }
-
-
-        stage('Build & Package') {
-            when { anyOf { branch 'master'; branch 'release' } }
-            steps {
-                bat "mvn clean package -DskipTests"
-            }
-        }
-
-
-        stage('Build & Push Docker Images') {
-            when { anyOf { branch 'stage'; branch 'master' } }
-            steps {
-                withCredentials([usernamePassword(credentialsId: "${DOCKER_CREDENTIALS_ID}", usernameVariable: 'DOCKERHUB_USER', passwordVariable: 'DOCKERHUB_PASS')]) {
-                    bat "docker login -u %DOCKERHUB_USER% -p %DOCKERHUB_PASS%"
-
-                    script {
-                        SERVICES.split().each { service ->
-                            bat "docker build -t ${DOCKERHUB_USER}/${service}:${IMAGE_TAG} .\\${service}"
-                            bat "docker push ${DOCKERHUB_USER}/${service}:${IMAGE_TAG}"
-                        }
-                    }
-                }
-            }
-        }
 
         stage('E2E Tests') {
             when {

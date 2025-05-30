@@ -1,20 +1,19 @@
-package com.e2e.test.user;
+package com.e2e.tests.user;
 
-import java.util.List;
-import java.util.Map;
-
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import com.e2e.tests.util.E2ESuite;
+import com.e2e.tests.util.TestRestFacade;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.ResponseEntity;
+import static org.junit.jupiter.api.Assertions.*;
 
-import com.e2e.test.util.E2ESuite;
-import com.e2e.test.util.TestRestFacade;
+import java.util.List;
+import java.util.Map;
 
 @SpringBootTest(classes = E2ESuite.class, webEnvironment = SpringBootTest.WebEnvironment.NONE)
-public class UserE2ETest extends E2ESuite {
+public class UserServiceE2ETest extends E2ESuite {
 
     @Autowired
     private TestRestFacade restFacade;
@@ -25,7 +24,7 @@ public class UserE2ETest extends E2ESuite {
     @Test
     void shouldSaveUser(){
         Map<String, Object> credentialPayload = Map.of(
-                "username", "kefsiño",
+                "username", "jacotaco",
                 "password", "12345678",
                 "roleBasedAuthority", "ROLE_USER",
                 "isEnabled", true,
@@ -35,17 +34,17 @@ public class UserE2ETest extends E2ESuite {
         );
 
         Map<String, Object> addressPayload = Map.of(
-                "fullAddress", "Calle 123 #6a-35",
+                "fullAddress", "Calle 35 norte #6a abis 35",
                 "postalCode", "760001",
                 "city", "Cali"
         );
 
         Map<String, Object> userPayload = Map.of(
-                "firstName", "Kef",
-                "lastName", "Siño",
+                "firstName", "Jacobo",
+                "lastName", "Ossa",
                 "imageUrl", "http://placeholder:200",
-                "email", "kef@gmial.com",
-                "phone", "1234567890",
+                "email", "jaco@gmial.com",
+                "phone", "3218770876",
                 "addressDtos", List.of(addressPayload),
                 "credential", credentialPayload
         );

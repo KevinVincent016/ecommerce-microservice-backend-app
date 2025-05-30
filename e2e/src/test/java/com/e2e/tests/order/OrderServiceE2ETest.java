@@ -1,7 +1,7 @@
-package com.e2e.test.order;
+package com.e2e.tests.order;
 
-import com.e2e.test.util.E2ESuite;
-import com.e2e.test.util.TestRestFacade;
+import com.e2e.tests.util.E2ESuite;
+import com.e2e.tests.util.TestRestFacade;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -17,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 
 @SpringBootTest(classes = E2ESuite.class, webEnvironment = SpringBootTest.WebEnvironment.NONE)
-public class OrderE2ETest extends E2ESuite {
+public class OrderServiceE2ETest extends E2ESuite {
 
     @Autowired
     private TestRestFacade restFacade; // Autowire your facade

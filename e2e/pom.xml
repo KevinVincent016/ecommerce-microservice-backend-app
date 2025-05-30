@@ -10,8 +10,8 @@
     <relativePath>../pom.xml</relativePath>
   </parent>
 
-  <artifactId>e2e</artifactId>
-  <name>e2e</name>
+  <artifactId>e2e-tests</artifactId>
+  <name>e2e-tests</name>
   <description>Spring Boot Microservice!</description>
 
   <properties>

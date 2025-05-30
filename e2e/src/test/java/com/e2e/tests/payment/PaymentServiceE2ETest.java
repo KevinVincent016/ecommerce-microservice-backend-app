@@ -1,7 +1,7 @@
-package com.e2e.test.payment;
+package com.e2e.tests.payment;
 
-import com.e2e.test.util.E2ESuite;
-import com.e2e.test.util.TestRestFacade;
+import com.e2e.tests.util.E2ESuite;
+import com.e2e.tests.util.TestRestFacade;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -13,7 +13,7 @@ import java.util.Map;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest(classes = E2ESuite.class, webEnvironment = SpringBootTest.WebEnvironment.NONE)
-public class PaymentE2ETest extends E2ESuite {
+public class PaymentServiceE2ETest extends E2ESuite {
 
     @Autowired
     private TestRestFacade restFacade;
