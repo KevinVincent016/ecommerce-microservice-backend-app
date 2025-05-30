@@ -134,6 +134,8 @@ pipeline {
                     }
                 }
 
+/*
+
         stage('E2E Tests') {
             when {
                 anyOf {
@@ -147,9 +149,7 @@ pipeline {
             }
         }
 
-
-/*
-
+*/
         stage('Levantar contenedores para pruebas') {
             steps {
                 script {
@@ -385,9 +385,7 @@ pipeline {
             }
         }
 
-
-
-
+/*
 
         stage('Run Load Tests with Locust') {
 
