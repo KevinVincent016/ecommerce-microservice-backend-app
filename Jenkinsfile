@@ -112,7 +112,7 @@ pipeline {
                     }
                 }
 
-/*
+
         stage('E2E Tests') {
                     when {
                         anyOf {
@@ -125,7 +125,6 @@ pipeline {
                         bat "mvn verify -pl e2e"
                     }
                 }
-*/
 
 
         stage('Build & Package') {
@@ -135,6 +134,7 @@ pipeline {
             }
         }
 
+/*
         stage('Build & Push Docker Images') {
             when { anyOf { branch 'stage'; branch 'master' } }
             steps {
@@ -150,6 +150,8 @@ pipeline {
                 }
             }
         }
+
+*/
 
 /*
 
