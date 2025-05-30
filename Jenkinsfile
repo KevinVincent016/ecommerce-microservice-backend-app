@@ -113,20 +113,6 @@ pipeline {
                 }
 
 
-        stage('E2E Tests') {
-                    when {
-                        anyOf {
-                            branch 'master'
-                            expression { env.BRANCH_NAME.startsWith('feature/') }
-                            allOf { not { branch 'master' }; not { branch 'release' } }
-                        }
-                    }
-                    steps {
-                        bat "mvn verify -pl e2e"
-                    }
-                }
-
-
         stage('Build & Package') {
             when { anyOf { branch 'master'; branch 'release' } }
             steps {
@@ -134,7 +120,7 @@ pipeline {
             }
         }
 
-/*
+
         stage('Build & Push Docker Images') {
             when { anyOf { branch 'stage'; branch 'master' } }
             steps {
@@ -151,7 +137,19 @@ pipeline {
             }
         }
 
-*/
+        stage('E2E Tests') {
+            when {
+                anyOf {
+                    branch 'master'
+                    expression { env.BRANCH_NAME.startsWith('feature/') }
+                    allOf { not { branch 'master' }; not { branch 'release' } }
+                }
+            }
+            steps {
+                bat "mvn verify -pl e2e"
+            }
+        }
+
 
 /*
 
