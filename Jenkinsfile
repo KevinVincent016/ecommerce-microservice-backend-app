@@ -465,14 +465,14 @@ pipeline {
                     --headless -u 10 -r 1 -t 1m ^
                     --csv payment-service-stress --csv-full-history
 
-                    #docker run --rm --network ecommerce-test ^
-                    #-v "%CD%\\locust:/mnt" ^
-                    #-v "%CD%\\locust-results:/app" ^
-                    #kevinloachamin/locust:%IMAGE_TAG% ^
-                    #-f /mnt/test/favourite-service/locustfile.py ^
-                    #--host http://favourite-service-container:8800 ^
-                    #--headless -u 10 -r 1 -t 1m ^
-                    #--csv favourite-service-stress --csv-full-history
+                    // docker run --rm --network ecommerce-test ^
+                    // -v "%CD%\\locust:/mnt" ^
+                    // -v "%CD%\\locust-results:/app" ^
+                    // kevinloachamin/locust:%IMAGE_TAG% ^
+                    // -f /mnt/test/favourite-service/locustfile.py ^
+                    // --host http://favourite-service-container:8800 ^
+                    // --headless -u 10 -r 1 -t 1m ^
+                    // --csv favourite-service-stress --csv-full-history
 
                     echo ✅ Pruebas de estrés completadas
                     '''
