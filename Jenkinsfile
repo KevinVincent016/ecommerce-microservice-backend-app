@@ -243,7 +243,7 @@ pipeline {
                         docker run -d --name service-discovery-container --network ecommerce-test -p 8761:8761 `
                             -e SPRING_PROFILES_ACTIVE=dev `
                             -e SPRING_ZIPKIN_BASE_URL=http://zipkin-container:9411 `
-                            juanmadrid09/service-discovery:${env:IMAGE_TAG}
+                            kevinloachamin/service-discovery:${env:IMAGE_TAG}
                         if ($LASTEXITCODE -ne 0) { throw "Error levantando Eureka" }
 
                         if (!(Wait-ForHealthCheck -Url "http://localhost:8761/actuator/health" -ServiceName "EUREKA")) {
@@ -257,7 +257,7 @@ pipeline {
                             -e SPRING_ZIPKIN_BASE_URL=http://zipkin-container:9411 `
                             -e EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://service-discovery-container:8761/eureka/ `
                             -e EUREKA_INSTANCE=cloud-config-container `
-                            juanmadrid09/cloud-config:${env:IMAGE_TAG}
+                            kevinloachamin/cloud-config:${env:IMAGE_TAG}
                         if ($LASTEXITCODE -ne 0) { throw "Error levantando Cloud Config" }
 
                         if (!(Wait-ForHealthCheck -Url "http://localhost:9296/actuator/health" -ServiceName "CLOUD-CONFIG")) {
@@ -272,7 +272,7 @@ pipeline {
                             -e SPRING_CONFIG_IMPORT=optional:configserver:http://cloud-config-container:9296 `
                             -e EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE=http://service-discovery-container:8761/eureka `
                             -e EUREKA_INSTANCE=order-service-container `
-                            juanmadrid09/order-service:${env:IMAGE_TAG}
+                            kevinloachamin/order-service:${env:IMAGE_TAG}
                         if ($LASTEXITCODE -ne 0) { throw "Error levantando Order Service" }
 
                         if (!(Wait-ForHealthCheckWithJq -Url "http://localhost:8300/order-service/actuator/health" -ServiceName "ORDER-SERVICE")) {
@@ -287,7 +287,7 @@ pipeline {
                             -e SPRING_CONFIG_IMPORT=optional:configserver:http://cloud-config-container:9296 `
                             -e EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE=http://service-discovery-container:8761/eureka `
                             -e EUREKA_INSTANCE=payment-service-container `
-                            juanmadrid09/payment-service:${env:IMAGE_TAG}
+                            kevinloachamin/payment-service:${env:IMAGE_TAG}
                         if ($LASTEXITCODE -ne 0) { throw "Error levantando Payment Service" }
 
                         if (!(Wait-ForHealthCheckWithJq -Url "http://localhost:8400/payment-service/actuator/health" -ServiceName "PAYMENT-SERVICE")) {
@@ -302,7 +302,7 @@ pipeline {
                             -e SPRING_CONFIG_IMPORT=optional:configserver:http://cloud-config-container:9296 `
                             -e EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE=http://service-discovery-container:8761/eureka `
                             -e EUREKA_INSTANCE=product-service-container `
-                            juanmadrid09/product-service:${env:IMAGE_TAG}
+                            kevinloachamin/product-service:${env:IMAGE_TAG}
                         if ($LASTEXITCODE -ne 0) { throw "Error levantando Product Service" }
 
                         if (!(Wait-ForHealthCheckWithJq -Url "http://localhost:8500/product-service/actuator/health" -ServiceName "PRODUCT-SERVICE")) {
@@ -317,7 +317,7 @@ pipeline {
                             -e SPRING_CONFIG_IMPORT=optional:configserver:http://cloud-config-container:9296 `
                             -e EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE=http://service-discovery-container:8761/eureka `
                             -e EUREKA_INSTANCE=shipping-service-container `
-                            juanmadrid09/shipping-service:${env:IMAGE_TAG}
+                            kevinloachamin/shipping-service:${env:IMAGE_TAG}
                         if ($LASTEXITCODE -ne 0) { throw "Error levantando Shipping Service" }
 
                         if (!(Wait-ForHealthCheckWithJq -Url "http://localhost:8600/shipping-service/actuator/health" -ServiceName "SHIPPING-SERVICE")) {
@@ -332,7 +332,7 @@ pipeline {
                             -e SPRING_CONFIG_IMPORT=optional:configserver:http://cloud-config-container:9296 `
                             -e EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE=http://service-discovery-container:8761/eureka `
                             -e EUREKA_INSTANCE=user-service-container `
-                            juanmadrid09/user-service:${env:IMAGE_TAG}
+                            kevinloachamin/user-service:${env:IMAGE_TAG}
                         if ($LASTEXITCODE -ne 0) { throw "Error levantando User Service" }
 
                         if (!(Wait-ForHealthCheckWithJq -Url "http://localhost:8700/user-service/actuator/health" -ServiceName "USER-SERVICE")) {
@@ -347,7 +347,7 @@ pipeline {
                             -e SPRING_CONFIG_IMPORT=optional:configserver:http://cloud-config-container:9296 `
                             -e EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE=http://service-discovery-container:8761/eureka `
                             -e EUREKA_INSTANCE=favourite-service-container `
-                            juanmadrid09/favourite-service:${env:IMAGE_TAG}
+                            kevinloachamin/favourite-service:${env:IMAGE_TAG}
                         if ($LASTEXITCODE -ne 0) { throw "Error levantando Favourite Service" }
 
                         if (!(Wait-ForHealthCheckWithJq -Url "http://localhost:8800/favourite-service/actuator/health" -ServiceName "FAVOURITE-SERVICE")) {
@@ -399,7 +399,7 @@ pipeline {
                     docker run --rm --network ecommerce-test ^
                         -v "%CD%\\locust:/mnt" ^
                         -v "%CD%\\locust-results:/app" ^
-                        juanmadrid09/locust:%IMAGE_TAG% ^
+                        kevinloachamin/locust:%IMAGE_TAG% ^
                         -f /mnt/test/order-service/locustfile.py ^
                         --host http://order-service-container:8300 ^
                         --headless -u 5 -r 1 -t 1m ^
@@ -410,7 +410,7 @@ pipeline {
                     docker run --rm --network ecommerce-test ^
                         -v "%CD%\\locust:/mnt" ^
                         -v "%CD%\\locust-results:/app" ^
-                        juanmadrid09/locust:%IMAGE_TAG% ^
+                        kevinloachamin/locust:%IMAGE_TAG% ^
                         -f /mnt/test/payment-service/locustfile.py ^
                         --host http://payment-service-container:8400 ^
                         --headless -u 5 -r 1 -t 1m ^
@@ -421,7 +421,7 @@ pipeline {
                     docker run --rm --network ecommerce-test ^
                         -v "%CD%\\locust:/mnt" ^
                         -v "%CD%\\locust-results:/app" ^
-                        juanmadrid09/locust:%IMAGE_TAG% ^
+                        kevinloachamin/locust:%IMAGE_TAG% ^
                         -f /mnt/test/favourite-service/locustfile.py ^
                         --host http://favourite-service-container:8800 ^
                         --headless -u 5 -r 1 -t 1m ^
@@ -443,7 +443,7 @@ pipeline {
                     docker run --rm --network ecommerce-test ^
                     -v "%CD%\\locust:/mnt" ^
                     -v "%CD%\\locust-results:/app" ^
-                    juanmadrid09/locust:%IMAGE_TAG% ^
+                    kevinloachamin/locust:%IMAGE_TAG% ^
                     -f /mnt/test/order-service/locustfile.py ^
                     --host http://order-service-container:8300 ^
                     --headless -u 10 -r 1 -t 1m ^
@@ -452,7 +452,7 @@ pipeline {
                     docker run --rm --network ecommerce-test ^
                     -v "%CD%\\locust:/mnt" ^
                     -v "%CD%\\locust-results:/app" ^
-                    juanmadrid09/locust:%IMAGE_TAG% ^
+                    kevinloachamin/locust:%IMAGE_TAG% ^
                     -f /mnt/test/payment-service/locustfile.py ^
                     --host http://payment-service-container:8400 ^
                     --headless -u 10 -r 1 -t 1m ^
@@ -461,7 +461,7 @@ pipeline {
                     docker run --rm --network ecommerce-test ^
                     -v "%CD%\\locust:/mnt" ^
                     -v "%CD%\\locust-results:/app" ^
-                    juanmadrid09/locust:%IMAGE_TAG% ^
+                    kevinloachamin/locust:%IMAGE_TAG% ^
                     -f /mnt/test/favourite-service/locustfile.py ^
                     --host http://favourite-service-container:8800 ^
                     --headless -u 10 -r 1 -t 1m ^
