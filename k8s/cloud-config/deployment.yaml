@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: cloud-config
-        image: juanmadrid09/cloud-config:latest
+        image: kevinloachamin/cloud-config:latest
         ports:
         - containerPort: 9296
         resources:

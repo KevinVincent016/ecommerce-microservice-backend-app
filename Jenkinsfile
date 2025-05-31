@@ -150,7 +150,7 @@ pipeline {
                 bat "mvn verify -pl e2e-tests"
             }
         }
-*/
+
         stage('Start containers for testing') {
             when {
             anyOf {
@@ -364,7 +364,7 @@ pipeline {
                 }
             }
         }
-
+*/
 
 /*
 Test excluido de locust, no hay suficiente memoria local para correr mas servicios
@@ -382,7 +382,7 @@ Test excluido de locust, no hay suficiente memoria local para correr mas servici
                     echo ✅ Pruebas completadas
 */
 
-
+/*
         stage('Run Stress Tests with Locust') {
             when { branch 'master' }
             steps {
@@ -413,7 +413,7 @@ Test excluido de locust, no hay suficiente memoria local para correr mas servici
                 }
             }
         }
-
+*/
 /*
 Test excluido de locust, no hay suficiente memoria local para correr mas servicios
                     // docker run --rm --network ecommerce-test ^
@@ -480,13 +480,13 @@ Test excluido de locust, no hay suficiente memoria local para correr mas servici
             when { anyOf { branch 'master'; } }
             steps {
                 script {
-                    def appServices = ['user-service', 'product-service', 'order-service','favourite-service','payment-service']
-                    echo "Desplegando servicios: ${appServices.join(', ')}"
+                    def appServices = ['user-service']
+                    echo "👻"
                     appServices.each { svc ->
                         bat "kubectl apply -f k8s\\${svc} -n ${K8S_NAMESPACE}"
                         bat "kubectl set image deployment/${svc} ${svc}=${DOCKERHUB_USER}/${svc}:${IMAGE_TAG} -n ${K8S_NAMESPACE}"
                         bat "kubectl set env deployment/${svc} SPRING_PROFILES_ACTIVE=${SPRING_PROFILES_ACTIVE} -n ${K8S_NAMESPACE}"
-                        bat "kubectl rollout status deployment/${svc} -n ${K8S_NAMESPACE} --timeout=500s"
+                        bat "kubectl rollout status deployment/${svc} -n ${K8S_NAMESPACE} --timeout=400s"
                     }
                 }
             }

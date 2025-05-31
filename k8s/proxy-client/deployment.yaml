@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: proxy-client
-          image: juanmadrid09/proxy-client:latest
+          image: kevinloachamin/proxy-client:latest
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 8900

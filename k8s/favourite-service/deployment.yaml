@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
       - name: favourite-service
-        image: juanmadrid09/favourite-service:latest
+        image: kevinloachamin/favourite-service:latest
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 8800

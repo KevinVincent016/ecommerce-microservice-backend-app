@@ -2,7 +2,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: proxy-client
-  namespace: ecommerce-app
+  namespace: ecommerce
   labels:
     app: proxy-client
 spec:
