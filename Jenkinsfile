@@ -471,6 +471,14 @@ Test excluido de locust, no hay suficiente memoria local para correr mas servici
                     --headless -u 10 -r 1 -t 1m ^
                     --csv payment-service-stress --csv-full-history
 
+                    echo ✅ Pruebas de estrés completadas
+                    '''
+                }
+            }
+        }
+
+/*
+Test excluido de locust, no hay suficiente memoria local para correr mas servicios
                     // docker run --rm --network ecommerce-test ^
                     // -v "%CD%\\locust:/mnt" ^
                     // -v "%CD%\\locust-results:/app" ^
@@ -479,12 +487,7 @@ Test excluido de locust, no hay suficiente memoria local para correr mas servici
                     // --host http://favourite-service-container:8800 ^
                     // --headless -u 10 -r 1 -t 1m ^
                     // --csv favourite-service-stress --csv-full-history
-
-                    echo ✅ Pruebas de estrés completadas
-                    '''
-                }
-            }
-        }
+*/
 
 
         stage('Detener y eliminar contenedores') {
