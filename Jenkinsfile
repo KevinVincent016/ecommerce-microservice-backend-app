@@ -9,7 +9,8 @@ pipeline {
     environment {
         DOCKERHUB_USER = 'kevinloachamin'
         DOCKER_CREDENTIALS_ID = '2'
-        SERVICES = 'api-gateway cloud-config favourite-service order-service payment-service product-service proxy-client service-discovery shipping-service user-service locust'
+        SERVICES = 'api-gateway cloud-config order-service payment-service product-service proxy-client service-discovery user-service locust'
+        //Exclude services = 'shipping-service favourite-service'
         K8S_NAMESPACE = 'ecommerce'
         KUBECONFIG = 'C:\\Users\\games\\.kube\\config'
     }
@@ -318,19 +319,19 @@ pipeline {
                      }
 
                      # 7. SHIPPING-SERVICE
-                     Write-Host "🚀 Starting SHIPPING..." -ForegroundColor Cyan
-                     docker run -d --name shipping-service-container --network ecommerce-test -p 8600:8600 `
-                         -e SPRING_PROFILES_ACTIVE=dev `
-                         -e SPRING_ZIPKIN_BASE_URL=http://zipkin-container:9411 `
-                         -e SPRING_CONFIG_IMPORT=optional:configserver:http://cloud-config-container:9296 `
-                         -e EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE=http://service-discovery-container:8761/eureka `
-                         -e EUREKA_INSTANCE=shipping-service-container `
-                         kevinloachamin/shipping-service:${env:IMAGE_TAG}
-                     if ($LASTEXITCODE -ne 0) { throw "Error starting Shipping Service" }
-
-                     if (!(Wait-ForHealthCheckWithJq -Url "http://localhost:8600/shipping-service/actuator/health" -ServiceName "SHIPPING-SERVICE")) {
-                         throw "SHIPPING-SERVICE could not be started correctly"
-                     }
+                     #Write-Host "🚀 Starting SHIPPING..." -ForegroundColor Cyan
+                     #docker run -d --name shipping-service-container --network ecommerce-test -p 8600:8600 `
+                     #    -e SPRING_PROFILES_ACTIVE=dev `
+                     #    -e SPRING_ZIPKIN_BASE_URL=http://zipkin-container:9411 `
+                     #    -e SPRING_CONFIG_IMPORT=optional:configserver:http://cloud-config-container:9296 `
+                     #    -e EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE=http://service-discovery-container:8761/eureka `
+                     #    -e EUREKA_INSTANCE=shipping-service-container `
+                     #    kevinloachamin/shipping-service:${env:IMAGE_TAG}
+                     #if ($LASTEXITCODE -ne 0) { throw "Error starting Shipping Service" }
+                     #
+                     #if (!(Wait-ForHealthCheckWithJq -Url "http://localhost:8600/shipping-service/actuator/health" -ServiceName "SHIPPING-SERVICE")) {
+                     #    throw "SHIPPING-SERVICE could not be started correctly"
+                     #}
 
                      # 8. USER-SERVICE
                      Write-Host "🚀 Starting USER..." -ForegroundColor Cyan
@@ -348,19 +349,19 @@ pipeline {
                      }
 
                      # 9. FAVOURITE-SERVICE
-                     Write-Host "🚀 Starting FAVOURITE..." -ForegroundColor Cyan
-                     docker run -d --name favourite-service-container --network ecommerce-test -p 8800:8800 `
-                         -e SPRING_PROFILES_ACTIVE=dev `
-                         -e SPRING_ZIPKIN_BASE_URL=http://zipkin-container:9411 `
-                         -e SPRING_CONFIG_IMPORT=optional:configserver:http://cloud-config-container:9296 `
-                         -e EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE=http://service-discovery-container:8761/eureka `
-                         -e EUREKA_INSTANCE=favourite-service-container `
-                         kevinloachamin/favourite-service:${env:IMAGE_TAG}
-                     if ($LASTEXITCODE -ne 0) { throw "Error starting Favourite Service" }
-
-                     if (!(Wait-ForHealthCheckWithJq -Url "http://localhost:8800/favourite-service/actuator/health" -ServiceName "FAVOURITE-SERVICE")) {
-                         throw "FAVOURITE-SERVICE could not be started correctly"
-                     }
+                     #Write-Host "🚀 Starting FAVOURITE..." -ForegroundColor Cyan
+                     #docker run -d --name favourite-service-container --network ecommerce-test -p 8800:8800 `
+                     #    -e SPRING_PROFILES_ACTIVE=dev `
+                     #    -e SPRING_ZIPKIN_BASE_URL=http://zipkin-container:9411 `
+                     #    -e SPRING_CONFIG_IMPORT=optional:configserver:http://cloud-config-container:9296 `
+                     #    -e EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE=http://service-discovery-container:8761/eureka `
+                     #    -e EUREKA_INSTANCE=favourite-service-container `
+                     #    kevinloachamin/favourite-service:${env:IMAGE_TAG}
+                     #if ($LASTEXITCODE -ne 0) { throw "Error starting Favourite Service" }
+                     #
+                     #if (!(Wait-ForHealthCheckWithJq -Url "http://localhost:8800/favourite-service/actuator/health" -ServiceName "FAVOURITE-SERVICE")) {
+                     #    throw "FAVOURITE-SERVICE could not be started correctly"
+                     #}
 
                      Write-Host "✅ All containers are up and healthy." -ForegroundColor Green
                  }
