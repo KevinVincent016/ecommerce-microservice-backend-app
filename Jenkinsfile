@@ -155,6 +155,21 @@ pipeline {
             steps {
                 script {
                     powershell '''
+                    echo 🧹 Limpiando contenedores previos...
+
+                    docker rm -f zipkin-container || exit 0
+                    docker rm -f service-discovery-container || exit 0
+                    docker rm -f cloud-config-container || exit 0
+                    docker rm -f order-service-container || exit 0
+                    docker rm -f payment-service-container || exit 0
+                    docker rm -f product-service-container || exit 0
+                    docker rm -f shipping-service-container || exit 0
+                    docker rm -f user-service-container || exit 0
+                    docker rm -f favourite-service-container || exit 0
+                    docker network rm ecommerce-test || exit 0
+
+                    echo 🧹 Contenedores previos eliminados
+                    """
                     # Función para esperar que un servicio esté saludable
                     function Wait-ForHealthCheck {
                         param(
