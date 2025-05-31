@@ -101,6 +101,8 @@ pipeline {
         }
 */
 
+/*
+
         stage('Unit Tests') {
                     when {
                         anyOf {
@@ -135,7 +137,6 @@ pipeline {
                     }
                 }
 
-/*
 
         stage('E2E Tests') {
             when {
@@ -157,16 +158,16 @@ pipeline {
                     powershell '''
                     echo 🧹 Limpiando contenedores previos...
 
-                    docker rm -f zipkin-container || exit 0
-                    docker rm -f service-discovery-container || exit 0
-                    docker rm -f cloud-config-container || exit 0
-                    docker rm -f order-service-container || exit 0
-                    docker rm -f payment-service-container || exit 0
-                    docker rm -f product-service-container || exit 0
-                    docker rm -f shipping-service-container || exit 0
-                    docker rm -f user-service-container || exit 0
-                    docker rm -f favourite-service-container || exit 0
-                    docker network rm ecommerce-test || exit 0
+                    docker rm -f zipkin-container 2>$null
+                    docker rm -f service-discovery-container 2>$null
+                    docker rm -f cloud-config-container 2>$null
+                    docker rm -f order-service-container 2>$null
+                    docker rm -f payment-service-container 2>$null
+                    docker rm -f product-service-container 2>$null
+                    docker rm -f shipping-service-container 2>$null
+                    docker rm -f user-service-container 2>$null
+                    docker rm -f favourite-service-container 2>$null
+                    docker network rm ecommerce-test 2>$null
 
                     echo 🧹 Contenedores previos eliminados
                     """
