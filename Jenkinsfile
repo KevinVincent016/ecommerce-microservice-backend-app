@@ -395,8 +395,6 @@ pipeline {
             }
         }
 
-/*
-
         stage('Run Load Tests with Locust') {
 
             when { branch 'master' }
@@ -506,6 +504,8 @@ pipeline {
                 }
             }
         }
+
+/*
 
         stage('Deploy Common Config') {
             when { branch 'master' }
