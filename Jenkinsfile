@@ -85,6 +85,7 @@ pipeline {
         }
 
 /*
+EJECUCION DE UNA SOLA VEZ, IMAGENES YA CARGADAS EN DOCKER HUB
         stage('Build & Push Docker Images') {
             when { anyOf { branch 'stage'; branch 'master' } }
             steps {
@@ -102,7 +103,6 @@ pipeline {
         }
 */
 
-/*
         stage('Unit Tests') {
                     when {
                         anyOf {
@@ -364,7 +364,6 @@ pipeline {
                 }
             }
         }
-*/
 
 /*
 Test excluido de locust, no hay suficiente memoria local para correr mas servicios
@@ -382,7 +381,6 @@ Test excluido de locust, no hay suficiente memoria local para correr mas servici
                     echo ✅ Pruebas completadas
 */
 
-/*
         stage('Run Stress Tests with Locust') {
             when { branch 'master' }
             steps {
@@ -413,7 +411,7 @@ Test excluido de locust, no hay suficiente memoria local para correr mas servici
                 }
             }
         }
-*/
+
 /*
 Test excluido de locust, no hay suficiente memoria local para correr mas servicios
                     // docker run --rm --network ecommerce-test ^
