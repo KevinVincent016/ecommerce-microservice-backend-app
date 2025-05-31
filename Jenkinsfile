@@ -423,7 +423,15 @@ pipeline {
                         --headless -u 5 -r 1 -t 1m ^
                         --csv payment-service-stats --csv-full-history
 
-                    // echo 🚀 Levantando Locust para favourite-service...
+                    '''
+                }
+            }
+        }
+
+
+/*
+Test excluido de locust, no hay suficiente memoria local para correr mas servicios
+// echo 🚀 Levantando Locust para favourite-service...
 
                     // docker run --rm --network ecommerce-test ^
                     //     -v "%CD%\\locust:/mnt" ^
@@ -435,10 +443,8 @@ pipeline {
                     //     --csv favourite-service-stats --csv-full-history
 
                     echo ✅ Pruebas completadas
-                    '''
-                }
-            }
-        }
+*/
+
 
         stage('Run Stress Tests with Locust') {
             when { branch 'master' }
