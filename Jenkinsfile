@@ -83,7 +83,7 @@ pipeline {
             }
         }
 
-
+/*
         stage('Build & Push Docker Images') {
             when { anyOf { branch 'stage'; branch 'master' } }
             steps {
@@ -99,7 +99,7 @@ pipeline {
                 }
             }
         }
-
+*/
 
 /*
 
