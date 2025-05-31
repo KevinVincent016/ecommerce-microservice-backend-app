@@ -423,16 +423,16 @@ pipeline {
                         --headless -u 5 -r 1 -t 1m ^
                         --csv payment-service-stats --csv-full-history
 
-                    #echo 🚀 Levantando Locust para favourite-service...
+                    // echo 🚀 Levantando Locust para favourite-service...
 
-                    #docker run --rm --network ecommerce-test ^
-                    #    -v "%CD%\\locust:/mnt" ^
-                    #    -v "%CD%\\locust-results:/app" ^
-                    #    kevinloachamin/locust:%IMAGE_TAG% ^
-                    #    -f /mnt/test/favourite-service/locustfile.py ^
-                    #    --host http://favourite-service-container:8800 ^
-                    #    --headless -u 5 -r 1 -t 1m ^
-                    #    --csv favourite-service-stats --csv-full-history
+                    // docker run --rm --network ecommerce-test ^
+                    //     -v "%CD%\\locust:/mnt" ^
+                    //     -v "%CD%\\locust-results:/app" ^
+                    //     kevinloachamin/locust:%IMAGE_TAG% ^
+                    //     -f /mnt/test/favourite-service/locustfile.py ^
+                    //     --host http://favourite-service-container:8800 ^
+                    //     --headless -u 5 -r 1 -t 1m ^
+                    //     --csv favourite-service-stats --csv-full-history
 
                     echo ✅ Pruebas completadas
                     '''
