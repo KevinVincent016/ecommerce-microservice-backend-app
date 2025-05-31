@@ -1,8 +1,15 @@
 # locustfile.py
 from locust import HttpUser, task, between
 
-#from test.favourite_service.locustfile import FavouriteServiceUser
-from test.product_service.locustfile import ProductServiceUser
-from test.payment_service.locustfile import PaymentServiceUser
-from test.order_service.locustfile import OrderServiceUser
+class FavouriteServiceUser(HttpUser):
+    wait_time = between(1, 3)
+
+    @task
+    def get_all_favourites(self):
+        path = "/favourite-service/api/favourites"
+        with self.client.get(path, catch_response=True, name="/api/favourites") as response:
+            if response.status_code >= 200 and response.status_code < 300:
+                response.success()
+            else:
+                response.failure(f"Unexpected status code: {response.status_code}")
 

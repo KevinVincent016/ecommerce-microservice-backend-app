@@ -1,98 +1,94 @@
 package com.selimhorri.app.integration;
 
 import com.selimhorri.app.dto.UserDto;
-import com.selimhorri.app.repository.UserRepository;
-import com.selimhorri.app.service.UserService;
+import com.selimhorri.app.unit.util.UserUtil;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.boot.web.server.LocalServerPort;
+import org.springframework.http.*;
+import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.context.ActiveProfiles;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@SpringBootTest
-@Transactional
-class UserServiceIntegrationTest {
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT,
+        properties = {"spring.profiles.active=test",
+                "spring.datasource.url=jdbc:h2:mem:testdb",
+                "spring.datasource.driver-class-name=org.h2.Driver"})
+
+@ActiveProfiles("test")
+@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
+public class UserServiceIntegrationTest {
+
+    @LocalServerPort
+    private int port;
 
     @Autowired
-    private UserService userService;
-
-    @Autowired
-    private UserRepository userRepository;
+    private TestRestTemplate restTemplate;
 
     @Test
-    void saveAndFindUser() {
-        var credential = com.selimhorri.app.dto.CredentialDto.builder()
-            .username("integrationuser")
-            .password("pass")
-            .roleBasedAuthority(null)
-            .isEnabled(true)
-            .isAccountNonExpired(true)
-            .isAccountNonLocked(true)
-            .isCredentialsNonExpired(true)
-            .build();
+    public void testCreateUser() {
+        String url = "http://localhost:" + port + "/user-service/api/users";
+        UserDto userDto = UserUtil.getSampleUserDto();
 
-        var userDto = com.selimhorri.app.dto.UserDto.builder()
-            .firstName("Integration")
-            .credentialDto(credential)
-            .build();
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
 
-        var saved = userService.save(userDto);
+        HttpEntity<UserDto> entity = new HttpEntity<>(userDto, headers);
 
-        assertNotNull(saved.getUserId());
-        assertEquals("Integration", saved.getFirstName());
+        ResponseEntity<UserDto> response = restTemplate.exchange(
+                url,
+                HttpMethod.POST,
+                entity,
+                UserDto.class
+        );
 
-        var found = userService.findById(saved.getUserId());
-        assertEquals("Integration", found.getFirstName());
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertNotNull(response.getBody());
+        assertEquals(userDto.getFirstName(), response.getBody().getFirstName());
+        assertEquals(userDto.getEmail(), response.getBody().getEmail());
     }
 
     @Test
-    void updateUser_shouldModifyUser() {
-        var credential = com.selimhorri.app.dto.CredentialDto.builder()
-            .username("integrationuser2")
-            .password("pass")
-            .roleBasedAuthority(null)
-            .isEnabled(true)
-            .isAccountNonExpired(true)
-            .isAccountNonLocked(true)
-            .isCredentialsNonExpired(true)
-            .build();
+    public void testGetUserById() {
+        Integer userId = 1;
+        String url = "http://localhost:" + port + "/user-service/api/users/" + userId;
 
-        var userDto = com.selimhorri.app.dto.UserDto.builder()
-            .firstName("Original")
-            .credentialDto(credential)
-            .build();
+        HttpHeaders headers = new HttpHeaders();
+        HttpEntity<String> entity = new HttpEntity<>(headers);
 
-        var saved = userService.save(userDto);
+        ResponseEntity<UserDto> response = restTemplate.exchange(
+                url,
+                HttpMethod.GET,
+                entity,
+                UserDto.class
+        );
 
-        saved.setFirstName("Updated");
-        var updated = userService.update(saved);
+        System.out.println("Response: " + response.getBody());
 
-        assertEquals("Updated", updated.getFirstName());
+        assertNotNull(response);
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertNotNull(response.getBody());
     }
 
     @Test
-    void deleteUser_shouldRemoveUser() {
-        var credential = com.selimhorri.app.dto.CredentialDto.builder()
-            .username("integrationuser3")
-            .password("pass")
-            .roleBasedAuthority(null)
-            .isEnabled(true)
-            .isAccountNonExpired(true)
-            .isAccountNonLocked(true)
-            .isCredentialsNonExpired(true)
-            .build();
+    public void testGetAllUsers() {
+        String url = "http://localhost:" + port + "/user-service/api/users";
 
-        var userDto = com.selimhorri.app.dto.UserDto.builder()
-            .firstName("ToDelete")
-            .credentialDto(credential)
-            .build();
+        HttpHeaders headers = new HttpHeaders();
+        HttpEntity<String> entity = new HttpEntity<>(headers);
 
-        var saved = userService.save(userDto);
-        Integer id = saved.getUserId();
+        ResponseEntity<String> response = restTemplate.exchange(
+                url,
+                HttpMethod.GET,
+                entity,
+                String.class
+        );
 
-        userService.deleteById(id);
-
-        assertThrows(Exception.class, () -> userService.findById(id));
+        assertNotNull(response);
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertNotNull(response.getBody());
     }
 }

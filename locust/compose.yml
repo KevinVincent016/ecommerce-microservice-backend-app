@@ -1,16 +1,10 @@
 version: '3'
 services:
-  locust:
-    build: .
+  service-discovery-container:
+    image: juanmadrid09/locust-service:latest
     ports:
       - 8089:8089
-    volumes:
-      - .:/mnt/locust
-    environment:
-      - LOCUST_HOST=http://ecommerce-microservice-backend-app-api-gateway-container-1:8080
-    networks:
-      - ecommerce-microservice-backend-app_microservices_network
 
-networks:
-  ecommerce-microservice-backend-app_microservices_network:
-    external: true
+
+
+
