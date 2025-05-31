@@ -102,7 +102,6 @@ pipeline {
         }
 */
 
-/*
 
         stage('Unit Tests') {
                     when {
@@ -152,7 +151,6 @@ pipeline {
             }
         }
 
-*/
         stage('Start containers for testing') {
               when {
                      anyOf {
@@ -304,19 +302,19 @@ pipeline {
                      }
 
                      # 6. PRODUCT-SERVICE
-                     Write-Host "🚀 Starting PRODUCT..." -ForegroundColor Cyan
-                     docker run -d --name product-service-container --network ecommerce-test -p 8500:8500 `
-                         -e SPRING_PROFILES_ACTIVE=dev `
-                         -e SPRING_ZIPKIN_BASE_URL=http://zipkin-container:9411 `
-                         -e SPRING_CONFIG_IMPORT=optional:configserver:http://cloud-config-container:9296 `
-                         -e EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE=http://service-discovery-container:8761/eureka `
-                         -e EUREKA_INSTANCE=product-service-container `
-                         kevinloachamin/product-service:${env:IMAGE_TAG}
-                     if ($LASTEXITCODE -ne 0) { throw "Error starting Product Service" }
+                     #Write-Host "🚀 Starting PRODUCT..." -ForegroundColor Cyan
+                     #docker run -d --name product-service-container --network ecommerce-test -p 8500:8500 `
+                     #    -e SPRING_PROFILES_ACTIVE=dev `
+                     #    -e SPRING_ZIPKIN_BASE_URL=http://zipkin-container:9411 `
+                     #    -e SPRING_CONFIG_IMPORT=optional:configserver:http://cloud-config-container:9296 `
+                     #    -e EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE=http://service-discovery-container:8761/eureka `
+                     #    -e EUREKA_INSTANCE=product-service-container `
+                     #    kevinloachamin/product-service:${env:IMAGE_TAG}
+                     #if ($LASTEXITCODE -ne 0) { throw "Error starting Product Service" }
 
-                     if (!(Wait-ForHealthCheckWithJq -Url "http://localhost:8500/product-service/actuator/health" -ServiceName "PRODUCT-SERVICE")) {
-                         throw "PRODUCT-SERVICE could not be started correctly"
-                     }
+                     #if (!(Wait-ForHealthCheckWithJq -Url "http://localhost:8500/product-service/actuator/health" -ServiceName "PRODUCT-SERVICE")) {
+                     #    throw "PRODUCT-SERVICE could not be started correctly"
+                     #}
 
                      # 7. SHIPPING-SERVICE
                      #Write-Host "🚀 Starting SHIPPING..." -ForegroundColor Cyan
@@ -334,19 +332,19 @@ pipeline {
                      #}
 
                      # 8. USER-SERVICE
-                     Write-Host "🚀 Starting USER..." -ForegroundColor Cyan
-                     docker run -d --name user-service-container --network ecommerce-test -p 8700:8700 `
-                         -e SPRING_PROFILES_ACTIVE=dev `
-                         -e SPRING_ZIPKIN_BASE_URL=http://zipkin-container:9411 `
-                         -e SPRING_CONFIG_IMPORT=optional:configserver:http://cloud-config-container:9296 `
-                         -e EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE=http://service-discovery-container:8761/eureka `
-                         -e EUREKA_INSTANCE=user-service-container `
-                         kevinloachamin/user-service:${env:IMAGE_TAG}
-                     if ($LASTEXITCODE -ne 0) { throw "Error starting User Service" }
+                     #Write-Host "🚀 Starting USER..." -ForegroundColor Cyan
+                     #docker run -d --name user-service-container --network ecommerce-test -p 8700:8700 `
+                     #    -e SPRING_PROFILES_ACTIVE=dev `
+                     #    -e SPRING_ZIPKIN_BASE_URL=http://zipkin-container:9411 `
+                     #    -e SPRING_CONFIG_IMPORT=optional:configserver:http://cloud-config-container:9296 `
+                     #    -e EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE=http://service-discovery-container:8761/eureka `
+                     #    -e EUREKA_INSTANCE=user-service-container `
+                     #    kevinloachamin/user-service:${env:IMAGE_TAG}
+                     #if ($LASTEXITCODE -ne 0) { throw "Error starting User Service" }
 
-                     if (!(Wait-ForHealthCheckWithJq -Url "http://localhost:8700/user-service/actuator/health" -ServiceName "USER-SERVICE")) {
-                         throw "USER-SERVICE could not be started correctly"
-                     }
+                     #if (!(Wait-ForHealthCheckWithJq -Url "http://localhost:8700/user-service/actuator/health" -ServiceName "USER-SERVICE")) {
+                     #    throw "USER-SERVICE could not be started correctly"
+                     #}
 
                      # 9. FAVOURITE-SERVICE
                      #Write-Host "🚀 Starting FAVOURITE..." -ForegroundColor Cyan
