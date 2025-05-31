@@ -57,6 +57,8 @@ Este proyecto implementa un sistema de microservicios para eCommerce utilizando 
 
 ### Pruebas Unitarias
 
+> **Nota:** Se incluye una imagen mostrando la correcta ejecución de las pruebas de carga y estrés en la carpeta `CapturaDePantalla TESTS`.
+
 #### Servicios con pruebas unitarias implementadas:
 
 - **user-service**
@@ -87,6 +89,8 @@ mvn test -pl user-service
 
 ### Pruebas de Integración
 
+> **Nota:** Se incluye una imagen mostrando la correcta ejecución de las pruebas de carga y estrés en la carpeta `CapturaDePantalla TESTS`.
+
 #### Servicios con pruebas de integración implementadas:
 
 - **user-service**
@@ -114,6 +118,8 @@ mvn verify -pl product-service
 
 ### Pruebas End-to-End (E2E)
 
+> **Nota:** Se incluye una imagen mostrando la correcta ejecución de las pruebas de carga y estrés en la carpeta `CapturaDePantalla TESTS`.
+
 #### Servicios cubiertos por pruebas E2E:
 
 - **user-service**
@@ -138,7 +144,7 @@ mvn verify -pl product-service
   - **Cobertura**:
     - Prueba de obtención de favoritos de usuario.
 
-**Tecnología:**  
+**Tecnología:**
 Se utiliza el módulo [`e2e-tests`](e2e-tests/) con **TestContainers** para levantar los servicios reales en Docker y probar flujos completos, simulando un entorno de producción.
 
 **Ejemplo de ejecución:**
@@ -149,6 +155,8 @@ mvn verify -pl e2e-tests
 ---
 
 ### Pruebas de Carga y Estrés (Locust)
+
+> **Nota:** Se incluye una imagen mostrando la correcta ejecución de las pruebas de carga y estrés en la carpeta `CapturaDePantalla TESTS`.
 
 - Scripts en: `locust/test/`
 - Ejemplo: `locustfile.py` para order-service y payment-service.
