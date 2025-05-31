@@ -540,21 +540,20 @@ Test excluido de locust, no hay suficiente memoria local para correr mas servici
 
 
         stage('Deploy Microservices') {
-                    when { branch 'master' }
-                    steps {
-                        script {
-                            echo "👻👻👻👻👻"
-        //                     SERVICES.split().each { svc ->
-        //                         if (!['user-service', ].contains(svc)) {
-        //                             bat "kubectl apply -f k8s\\${svc} -n ${K8S_NAMESPACE}"
-        //                             bat "kubectl set image deployment/${svc} ${svc}=${DOCKERHUB_USER}/${svc}:${IMAGE_TAG} -n ${K8S_NAMESPACE}"
-        //                             bat "kubectl set env deployment/${svc} SPRING_PROFILES_ACTIVE=${SPRING_PROFILES_ACTIVE} -n ${K8S_NAMESPACE}"
-        //                             bat "kubectl rollout status deployment/${svc} -n ${K8S_NAMESPACE} --timeout=300s"
-        //                         }
-        //                     }
-                        }
+            when { anyOf { branch 'master'; } }
+            steps {
+                script {
+                    def appServices = ['user-service', 'product-service', 'order-service','favourite-service','payment-service']
+                    echo "Desplegando servicios: ${appServices.join(', ')}"
+                    appServices.each { svc ->
+                        bat "kubectl apply -f k8s\\${svc} -n ${K8S_NAMESPACE}"
+                        bat "kubectl set image deployment/${svc} ${svc}=${DOCKERHUB_USER}/${svc}:${IMAGE_TAG} -n ${K8S_NAMESPACE}"
+                        bat "kubectl set env deployment/${svc} SPRING_PROFILES_ACTIVE=${SPRING_PROFILES_ACTIVE} -n ${K8S_NAMESPACE}"
+                        bat "kubectl rollout status deployment/${svc} -n ${K8S_NAMESPACE} --timeout=500s"
                     }
                 }
+            }
+        }
 
         stage('Generate Release Notes') {
             when {
